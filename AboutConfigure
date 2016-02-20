@@ -1,1 +1,11 @@
 # NFS-AutoFS
+
+One drawback to using /etc/fstab is that, regardless of how infrequently a user accesses the NFS mounted file system, the system must dedicate resources to keep the mounted file system in place. This is not a problem with one or two mounts, but when the system is maintaining mounts to many systems at one time, overall system performance can be affected. 
+
+autofs uses /etc/auto.master (master map) as its default primary configuration file.
+
+Once the NFS file system is mounted read/write by a remote host, the only protection each shared file has is its permissions. If two users that share the same user ID value mount the same NFS file system, they can modify each others files. Additionally, anyone logged in as root on the client system can use the su - command to become a user who could access particular files via the NFS share. 
+
+The default behavior when exporting a file system via NFS is to use root squashing. This sets the user ID of anyone accessing the NFS share as the root user on their local machine to a value of the server's nfsnobody account. Never turn off root squashing.
+
+If exporting an NFS share read-only, consider using the all_squash option, which makes every user accessing the exported file system take the user ID of the nfsnobody user.
