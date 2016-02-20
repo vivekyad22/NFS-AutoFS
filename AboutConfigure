@@ -9,3 +9,40 @@ Once the NFS file system is mounted read/write by a remote host, the only protec
 The default behavior when exporting a file system via NFS is to use root squashing. This sets the user ID of anyone accessing the NFS share as the root user on their local machine to a value of the server's nfsnobody account. Never turn off root squashing.
 
 If exporting an NFS share read-only, consider using the all_squash option, which makes every user accessing the exported file system take the user ID of the nfsnobody user.
+
+3.1.1. Direct and Indirect Maps
+
+automount maps can be direct or indirect. Indirect maps, such as those in the auto.master file shown above, create-mount points as subdirectories inside the main mount-point. For example, consider the following master map entry:
+
+/smb   /etc/auto.smb
+This entry in auto.master tells autofs to look in /etc/auto.smb and create mount-points in the /smb directory.
+
+Direct maps create a mount-point at the path specified in the relevant map file. The mount-point entry in auto.master is always /-. For example, the following line instructs autofs to create a mount-point at the place specified in auto.data:
+
+/-        /etc/auto.data
+If the map file is not specified using a full local or network path, the Name Service Switch configuration will be used to locate the map, e.g.:
+/-        auto.data
+
+5.2. Wildcard characters
+Let's say you have a directory with a number of subdirectories which you want to have auto-mounted individually. An example of this is the /home directory, in which case /etc/auto.master might contain the following line:
+
+/home   /etc/auto.home
+If user1 is logged in, you will want to auto-mount his home directory
+
+you can use wild-card characters, as follows:
+
+*   server:/home/&
+
+
+
+
+
+
+
+
+
+
+
+
+
+
