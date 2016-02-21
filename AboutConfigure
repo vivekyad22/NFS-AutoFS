@@ -33,6 +33,56 @@ you can use wild-card characters, as follows:
 
 *   server:/home/&
 
+/var/log/messages is the logging directory
+
+Resolution
+
+Start autofs with the --debug option. Simply add it to the configuration file /etc/sysconfig/autofs in the following line:
+AUTOFS_OPTIONS="--debug"
+
+Restart the service with
+rcautofs restart
+and you will find a lot more information about what automount does in /var/log/messages.
+
+nfs-kernel-server package
+
+To export our directories to a local network 192.168.1.0/24 we add the following two lines to /etc/exports
+
+/export       192.168.1.0/24(rw,fsid=0,insecure,no_subtree_check,async)
+/export/users 192.168.1.0/24(rw,nohide,insecure,no_subtree_check,async)
+
+NFS user permissions are based on user ID (UID). UIDs of any users on the client must match those on the server in order for the users to have access. The typical ways of doing this are:
+
+Manual password file synchronization
+Use of LDAP
+
+Use of NIS
+
+Install nfslogd for more logging
+rpcinfo can be used for logging
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
