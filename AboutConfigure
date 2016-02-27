@@ -1,4 +1,6 @@
 # NFS-AutoFS
+NFS - port 111 UDP & TCP and 2049 
+
 
 One drawback to using /etc/fstab is that, regardless of how infrequently a user accesses the NFS mounted file system, the system must dedicate resources to keep the mounted file system in place. This is not a problem with one or two mounts, but when the system is maintaining mounts to many systems at one time, overall system performance can be affected. 
 
