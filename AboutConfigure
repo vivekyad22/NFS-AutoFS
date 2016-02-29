@@ -1,6 +1,7 @@
 # NFS-AutoFS
 NFS - port 111 UDP & TCP and 2049 
 
+Configuration of NFS server with autofs for automatic mounting & unmounting, effectively used in mounting roaming users home directory on login . 
 
 One drawback to using /etc/fstab is that, regardless of how infrequently a user accesses the NFS mounted file system, the system must dedicate resources to keep the mounted file system in place. This is not a problem with one or two mounts, but when the system is maintaining mounts to many systems at one time, overall system performance can be affected. 
 
@@ -52,6 +53,22 @@ To export our directories to a local network 192.168.1.0/24 we add the following
 
 /export       192.168.1.0/24(rw,fsid=0,insecure,no_subtree_check,async)
 /export/users 192.168.1.0/24(rw,nohide,insecure,no_subtree_check,async)
+
+
+no_subtree_check: If only part of a volume is exported, a routine called subtree checking verifies that a file that is requested from the client is in the appropriate part of the volume. If the entire volume is exported, disabling this check will speed up transfers.
+
+no_root_squash: By default, any file request made by user root on the client machine is treated as if it is made by user nobody on the server. (Exactly which UID the request is mapped to depends on the UID of user "nobody" on the server, not the client.) If no_root_squash is selected, then root on the client machine will have the same level of access to the files on the system as root on the server. This can have serious security implications, although it may be necessary if you want to perform any administrative work on the client machine that involves the exported directories. You should not specify this option without a good reason.
+
+
+async
+
+This option allows the NFS server to violate the NFS protocol and reply to requests before any changes made by that request have been committed to stable storage (e.g. disc drive).
+Using this option usually improves performance, but at the cost that an unclean server restart (i.e. a crash) can cause data to be lost or corrupted.
+
+sync
+Reply to requests only after the changes have been committed to stable storage .
+
+
 
 NFS user permissions are based on user ID (UID). UIDs of any users on the client must match those on the server in order for the users to have access. The typical ways of doing this are:
 
